@@ -164,7 +164,7 @@ const SearchResult = ({ connectionType, setIsConnected }) => {
               >
                 Continue to Cart
               </motion.button>
-              <p className="text-white text-sm md:text-base font-bold flex items-center">
+              <p className="text-white text-xs font-bold flex items-center">
                 Your Cart:
                 <div className="text-[#508FF6] bg-[#639BF7]/40 h-8 w-8 rounded-full flex items-center justify-center ml-2">
                   {cart.length}
