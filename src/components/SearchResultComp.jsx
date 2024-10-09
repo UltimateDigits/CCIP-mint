@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import TickIcon from "../assets/tick.png";
 import Cross from "../assets/cross-icon.svg";
 import BASE from "../assets/base.webp";
@@ -17,7 +17,6 @@ import { formatPhoneNumber } from "../functions/formatPhoneNumber";
 import { addItemToCart, removeItemFromCart, selectCartItems } from "../redux/cartSlice";
 
 const SearchResultComp = ({ number, showAvailability, available, isLast, isFirst, displayedTiers }) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const cart = useSelector(selectCartItems);

@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectNumber } from "../redux/numberSlice";
 import { addItemToCart, clearCart, selectCartItems } from "../redux/cartSlice";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import Telephone from "../assets/Telephone.png";
 import SearchResultComp from "./SearchResultComp";
 import { generateDiamondNumbers } from '../functions/diamond-numbers/generateDiamondNumbers';
@@ -14,7 +13,6 @@ import { GlobalURL } from "../constants";
 import axios from "axios";
 
 const SearchResult = ({ onNavigateToCheckout }) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const storedNumber = useSelector(selectNumber);
   const cart = useSelector(selectCartItems);
