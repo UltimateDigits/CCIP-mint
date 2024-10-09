@@ -69,12 +69,14 @@ const MintSuccess = ({ }) => {
                         </svg>
                     </div>
 
-                    <div className="bg-[#181931] h-[60px] py-3 md:p-2 px-4 w-[300px] items-center md:w-full rounded-lg border border-[#7B8DB7]/20">
-                        <p className="text-sm font-medium">Wallet Address</p>
-                        {/* Display the wallet address fetched from local storage */}
-                        <p className="text-xs text-customText pt-1">
-                            {account.address || "No wallet address linked"}
-                        </p>
+                    <div className=" flex justify-center">
+                        <div className="bg-[#181931] h-[60px] mt-2 p-2 px-4 w-[300px] md:w-full rounded-lg border border-[#7B8DB7]/20">
+                            <p className="text-sm font-medium">Wallet Address</p>
+                            {/* Display the wallet address fetched from local storage */}
+                            <p className="text-xs text-customText pt-1">
+                                {account.address || "No wallet address linked"}
+                            </p>
+                        </div>
                     </div>
                     {/* <motion.button
                         whileTap={{ scale: 0.9 }}
