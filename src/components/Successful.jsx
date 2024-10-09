@@ -46,7 +46,7 @@ const MintSuccess = ({ }) => {
                         </p>
                     </div>
                     <div className=" flex justify-center">
-                        <div className="bg-[#181931] h-[60px] mt-2 p-2 px-4 w-[300px] md:w-full rounded-lg border border-[#7B8DB7]/20">
+                        <div className="bg-[#181931] h-fit mt-2 p-2 px-4 w-[350px] md:w-full rounded-lg border border-[#7B8DB7]/20">
                             <p className="text-sm font-medium">Your current number</p>
                             <p className="text-xs text-customText pt-1">
                                 +999 {formattedPhoneNumbers || "Enter your Phone Number"}
@@ -70,7 +70,7 @@ const MintSuccess = ({ }) => {
                     </div>
 
                     <div className=" flex justify-center">
-                        <div className="bg-[#181931] h-[60px] mt-2 p-2 px-4 w-[300px] md:w-full rounded-lg border border-[#7B8DB7]/20">
+                        <div className="bg-[#181931] h-[60px] mt-2 p-2 px-4 w-[350px] md:w-full rounded-lg border border-[#7B8DB7]/20">
                             <p className="text-sm font-medium">Wallet Address</p>
                             {/* Display the wallet address fetched from local storage */}
                             <p className="text-xs text-customText pt-1">
