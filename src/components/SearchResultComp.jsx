@@ -70,7 +70,7 @@ const SearchResultComp = ({ number, showAvailability, available, isLast, isFirst
                 readOnly
                 className="bg-transparent border-none text-white text-xs font-medium focus:outline-none focus:ring-0 w-full"
               />
-              <div className="flex gap-2 space-y-1 ">
+              <div className="mx-auto gap-2 space-y-1 ">
                 {showAvailability && (
                   <p
                     className={`w-fit h-fit text-[10px] p-1 px-2 rounded-full font-bold ${available ? "bg-[#489D5D]" : "bg-[#FF9900]"}`}
