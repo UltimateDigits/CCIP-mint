@@ -75,10 +75,10 @@ const CartCheckout = () => {
                                             ETH {cartItems.reduce((total, item) => total + (parseFloat(checkPrice(item))), 0).toFixed(3)}
                                         </p>
                                     </div>
-                                    <div className=" flex items-center justify-between">
+                                    {/* <div className=" flex items-center justify-between">
                                         <p className=" text-customText text-sm">Referral reward</p>
                                         <p className=" font-semibold text-xs">ETH {discountValue}</p>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className="border-b-2 border-[#7B8DB7]/20 w-full"></div>
                                 <div className="flex items-center justify-between">
@@ -94,6 +94,20 @@ const CartCheckout = () => {
 
                             {/* coupon redeem */}
                             <div className="mx-2">
+                                {/* <p className=" font-bold text-base">Coupon code</p>
+                                <input
+                                    type="text"
+                                    placeholder="Enter your coupon code"
+                                    className="mt-2 p-3 bg-[#1F2138] h-[34px] w-full rounded-lg border border-[#7B8DB7]/20"
+                                />
+                                <div className=" flex justify-center pt-3">
+                                    <motion.button
+                                        whileTap={{ scale: 0.9 }}
+                                        className={`font-bold text-xs p-2 w-full rounded-full bg-customBlue text-white border border-customBlue`}
+                                    >
+                                        Add Coupon Code
+                                    </motion.button>
+                                </div> */}
                                 <div className=" flex justify-center pt-2">
                                     <motion.button
                                         whileTap={{ scale: 0.9 }}
