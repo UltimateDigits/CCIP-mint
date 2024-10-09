@@ -8,6 +8,7 @@ export default {
     extend: {
       colors: {
         customText: '#D8E4FD',
+         customBlue: '#2070F4'
       }
     },
   },
