@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import checkPrice from "../functions/checkPrice";
 import checkTier from "../functions/checkTier";
 
-const CartCheckout = () => {
+const CartCheckout = ({ onNavigateToMintNFT }) => {
     const cartItems = useSelector(selectCartItems);
     const discountValue = 0.000;
     return (
@@ -110,6 +110,7 @@ const CartCheckout = () => {
                                 </div> */}
                                 <div className=" flex justify-center pt-2">
                                     <motion.button
+                                        onClick={onNavigateToMintNFT}
                                         whileTap={{ scale: 0.9 }}
                                         className={`font-bold text-xs p-2 w-full rounded-full bg-customBlue text-white border border-customBlue`}
                                     >
