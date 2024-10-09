@@ -21,8 +21,8 @@ const MintSuccess = ({ }) => {
 
     return (
         <div className=" text-white">
-            <div className="flex justify-center items-center pt-6 lg:pt-16">
-                <div className="max-w-7xl mx-4 md:mx-0">
+            <div className="flex justify-center items-center">
+                <div className="max-w-5xl mx-4 md:mx-0">
                     <div className="flex justify-center">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -39,16 +39,16 @@ const MintSuccess = ({ }) => {
                     </div>
 
                     <div className="text-center mx-6 md:mx-0">
-                        <p className="text-2xl md:text-3xl font-bold">Number linked!</p>
-                        <p className="text-base text-customText">
+                        <p className="text-base font-bold">Number linked!</p>
+                        <p className="text-xs text-customText">
                             Congratulations! Your phone number has been linked to{" "}
                             <br className="hidden lg:flex" /> your chosen wallet address
                         </p>
                     </div>
                     <div className=" flex justify-center">
-                        <div className="bg-[#181931] h-[80px] mt-6 p-2 px-4 w-[380px] md:w-full rounded-lg border border-[#7B8DB7]/20">
-                            <p className="text-xl font-medium">Your current number</p>
-                            <p className="text-base text-customText pt-1">
+                        <div className="bg-[#181931] h-[60px] mt-2 p-2 px-4 w-[300px] md:w-full rounded-lg border border-[#7B8DB7]/20">
+                            <p className="text-sm font-medium">Your current number</p>
+                            <p className="text-xs text-customText pt-1">
                                 +999 {formattedPhoneNumbers || "Enter your Phone Number"}
                             </p>
                         </div>
@@ -59,7 +59,7 @@ const MintSuccess = ({ }) => {
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             fill="currentColor"
-                            className="size-10 text-green-600"
+                            className="size-6 text-green-600"
                         >
                             <path
                                 fillRule="evenodd"
@@ -69,10 +69,10 @@ const MintSuccess = ({ }) => {
                         </svg>
                     </div>
 
-                    <div className="bg-[#181931] h-[80px] py-3 md:p-2 px-4 w-[380px] items-center md:w-full rounded-lg border border-[#7B8DB7]/20">
-                        <p className="text-xl font-medium">Wallet Address</p>
+                    <div className="bg-[#181931] h-[60px] py-3 md:p-2 px-4 w-[300px] items-center md:w-full rounded-lg border border-[#7B8DB7]/20">
+                        <p className="text-sm font-medium">Wallet Address</p>
                         {/* Display the wallet address fetched from local storage */}
-                        <p className="text-xs md:text-base text-customText pt-1">
+                        <p className="text-xs text-customText pt-1">
                             {account.address || "No wallet address linked"}
                         </p>
                     </div>
@@ -100,7 +100,7 @@ const MintSuccess = ({ }) => {
                 </div>
             </div>
             <div className="flex justify-center">
-                <footer className="text-center text-gray-500 bottom-0 p-2">
+                <footer className="text-sm text-center text-gray-500 bottom-0 p-2">
                     &copy; Ultimate Digits 2024
                 </footer>
             </div>
