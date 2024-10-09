@@ -45,7 +45,7 @@ const EnterNumber = ({ onSearch, setConnectionType, setIsConnected }) => {
             <div className="flex justify-center items-center text-white">
                 <div className=" mx-4 md:mx-0 space-y-3">
                     <img className="h-12 w-12 mx-auto" src={UDlogo} alt="UD - Logo" />
-                    {/* <Wallet setConnectionType={setConnectionType} setIsConnected={setIsConnected} /> */}
+                    <Wallet setConnectionType={setConnectionType} setIsConnected={setIsConnected} />
                     <p className="text-2xl md:text-3xl text-center font-bold">
                         Your Web3 Mobile Number
                     </p>
