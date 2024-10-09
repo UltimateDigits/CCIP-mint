@@ -13,7 +13,7 @@ import { generateRandomNumbers } from '../functions/random-numbers/generateRando
 import { GlobalURL } from "../constants";
 import axios from "axios";
 
-const SearchResult = ({ connectionType, setIsConnected }) => {
+const SearchResult = ({ onNavigateToCheckout }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const storedNumber = useSelector(selectNumber);
@@ -154,11 +154,7 @@ const SearchResult = ({ connectionType, setIsConnected }) => {
           >
             <div className="flex justify-center items-center gap-4">
               <motion.button
-                onClick={() =>
-                  handleNavigation(
-                    "/virtual-number/search-results/cart-checkout"
-                  )
-                }
+                onClick={onNavigateToCheckout}
                 whileTap={{ scale: 0.9 }}
                 className="font-bold text-xs p-2 px-4 rounded-full bg-customBlue text-white border border-customBlue"
               >
