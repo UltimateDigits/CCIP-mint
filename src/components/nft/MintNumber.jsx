@@ -158,16 +158,16 @@ const MintNumber = ({ connectionType, setIsConnected, onMintSuccess }) => {
               <NumberNft />
             </div>
             <div className="text-center">
-              <p className="font-bold text-3xl">Purchase Confirmation</p>
-              <p className="text-customText">
+              <p className="font-bold text-base">Purchase Confirmation</p>
+              <p className="text-customText text-sm">
                 Number owner will be assigned to the following wallet address:
               </p>
               <p className="hidden md:flex font-bold mt-2 text-center">{currentAddress}</p>
-              <div className="pt-5">
+              <div className="pt-2">
                 <motion.button
                   onClick={buynumber}
                   whileTap={{ scale: 0.9 }}
-                  className={`font-bold text-xs md:text-base p-3 w-full rounded-full ${loading ? "bg-gray-400" : "bg-customBlue"} text-white border border-customBlue`}
+                  className={`font-bold text-sm p-2 w-full rounded-full ${loading ? "bg-gray-400" : "bg-customBlue"} text-white border border-customBlue`}
                   disabled={loading}
                 >
                   {loading ? "Minting..." : "Link your number to a wallet"}
