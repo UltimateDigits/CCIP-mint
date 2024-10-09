@@ -13,7 +13,7 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-cover bg-center bricolage-font pb-6 bg-gradient-to-t from-[#06061E] via-[#06061E] to-blue-950 flex justify-center items-center">
+    <div className="min-h-screen bg-cover bg-center bricolage-font pb-6 bg-gradient-to-t from-[#06061E] via-[#06061E] to-blue-950 flex justify-center items-center inter-font">
       <div className="space-y-3">
         {showSearchResults ? (
           <SearchResults searchInput={searchInput} /> // Display SearchResults with searchInput

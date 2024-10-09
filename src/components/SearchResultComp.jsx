@@ -66,7 +66,7 @@ const SearchResultComp = ({ number, showAvailability, available, isLast, isFirst
               <input
                 type="text"
                 placeholder="XXX XXX XXXX"
-                value={`${isFirst ? '' : '+999 '}${number ? formatPhoneNumber(number) : ''}`}
+                value={`+999 /${number ? formatPhoneNumber(number) : ''}`}
                 readOnly
                 className="bg-transparent border-none text-white text-xs font-medium focus:outline-none focus:ring-0 w-full"
               />
