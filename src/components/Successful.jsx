@@ -4,12 +4,16 @@ import { useAccount } from "wagmi";
 import { selectCartItems } from "../redux/cartSlice";
 import { useSelector } from "react-redux";
 import { formatPhoneNumber } from "../functions/formatPhoneNumber";
+import { BRIDGENFT, GETLASTMESSAGE } from "../contract/contractIntegration";
 
 
 const MintSuccess = ({ }) => {
     const account = useAccount();
 
     const cartArray = useSelector(selectCartItems);
+    const [loading, setLoading] = useState(false);
+    const [tokenUri, setTokenUri] = useState("");
+
 
     const formattedPhoneNumbers = cartArray.map((phone) =>
         formatPhoneNumber(phone)
@@ -18,6 +22,29 @@ const MintSuccess = ({ }) => {
     const handleNavigation = (path) => {
         navigate(path);
     };
+
+    const NFTBridge = async () => {
+        const result = await GETLASTMESSAGE();
+        console.log("result", result);        
+        //   if (result) {
+        //     setStatus(`NFT Bridged!`);
+        //   } else {
+        //     throw new Error("Bridging failed, no transaction hash returned.");
+        //   }
+    }
+
+    const MintBridgeNFT = async (tokenUri) => {
+        const result = await BRIDGENFT({text: tokenUri});
+          if (result && result.hash) {
+            setStatus(`NFT Bridged and Minted! Transaction Hash: ${result.hash}`);
+          } else {
+            throw new Error("Bridged Minting failed, no transaction hash returned.");
+          }
+    }
+
+    useEffect(() => {
+        NFTBridge();
+    });
 
     return (
         <div className=" text-white">
@@ -77,6 +104,15 @@ const MintSuccess = ({ }) => {
                                 {account.address || "No wallet address linked"}
                             </p>
                         </div>
+                    </div>
+                    <div className="pt-4">
+                        <motion.button
+                            whileTap={{ scale: 0.9 }}
+                            className={`font-bold text-sm p-2 w-full rounded-full ${loading ? "bg-gray-400" : "bg-green-500"} text-white border border-green-500`}
+                            disabled={loading}
+                        >
+                        {loading ? "Bridging..." : "Bridge NFT"}
+                    </motion.button>
                     </div>
                     {/* <motion.button
                         whileTap={{ scale: 0.9 }}
