@@ -65,7 +65,7 @@ const App = () => {
         {showMintSuccess ? ( // Conditionally render MintSuccess component
           <MintSuccess />
         ) : showMintNFT ? ( // Conditionally render MintNFT component
-          <MintNFT onMintSuccess={handleMintSuccess} /> // Pass function to MintNFT
+          <MintNFT onMintSuccess={handleMintSuccess} connectionType={"wagmi"} /> // Pass function to MintNFT
         ) : showCartCheckout ? ( 
           <CartCheckout onNavigateToMintNFT={handleNavigationToMintNFT} /> // Pass function to CartCheckout
         ) : showSearchResults ? (

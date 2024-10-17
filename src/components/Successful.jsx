@@ -4,8 +4,9 @@ import { useAccount } from "wagmi";
 import { selectCartItems } from "../redux/cartSlice";
 import { useSelector } from "react-redux";
 import { formatPhoneNumber } from "../functions/formatPhoneNumber";
-
-
+import { switchChain } from '@wagmi/core'
+import { arbitrumSepolia } from '@wagmi/core/chains'
+import { config } from "../main";
 const MintSuccess = ({ }) => {
     const account = useAccount();
 
@@ -18,6 +19,13 @@ const MintSuccess = ({ }) => {
     const handleNavigation = (path) => {
         navigate(path);
     };
+
+
+    const BridgeArbitritum = async() => {
+        console.log("will brige to arbi");
+        await switchChain(config, { chainId: arbitrumSepolia.id })
+        
+    }
 
     return (
         <div className=" text-white">
@@ -78,13 +86,13 @@ const MintSuccess = ({ }) => {
                             </p>
                         </div>
                     </div>
-                    {/* <motion.button
+                    <motion.button
                         whileTap={{ scale: 0.9 }}
                         className="border-2 border-customBlue bg-customBlue hover:bg-transparent w-full p-2 rounded-full mt-6"
-                        onClick={() => handleNavigation("/sending-crpto/home-page")}
+                        onClick={BridgeArbitritum}
                     >
                         <p className="font-bold flex justify-center mx-auto gap-3 items-center text-center">
-                            Start Sending Crypto
+                Bridge to Arbitrum
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
@@ -98,7 +106,7 @@ const MintSuccess = ({ }) => {
                                 />
                             </svg>
                         </p>
-                    </motion.button> */}
+                    </motion.button>
                 </div>
             </div>
             <div className="flex justify-center">

@@ -92,7 +92,9 @@ const MintNumber = ({ connectionType, setIsConnected, onMintSuccess }) => {
           tokenUri,
           address: RECEIVER_ADDRESS,
           amount: transacamount,
-          connectionType,
+         destSelector: "3478487238524512106",
+         receiver: "0xcfa13bbF8bdf195280FCA71466BD0C4D941Db051",
+         message:tokenUri
         });
         if (result && result.hash) {
           setStatus(`NFT minted successfully! Transaction Hash: ${result.hash}`);

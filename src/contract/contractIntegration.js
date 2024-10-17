@@ -27,7 +27,10 @@ export const GETPHONENUMBERSBYWALLET =async (walletAddress) => {
     }
 }
 
-export const MINTNUMBERNFT = async ({ phoneNumbers, tokenUri, address, amount }) => {
+export const MINTNUMBERNFT = async ({ phoneNumbers, tokenUri, address, amount, destSelector,receiver, message }) => {
+
+  console.log(phoneNumbers, tokenUri, address, amount, destSelector,receiver, message);
+  
   try {
     const provider = window.ethereum != null
       ? new ethers.providers.Web3Provider(window.ethereum)
@@ -36,7 +39,8 @@ export const MINTNUMBERNFT = async ({ phoneNumbers, tokenUri, address, amount })
     const signer = provider.getSigner();
     const Role = new ethers.Contract(BASE_SEPOLIA_CONTRACT_ADDRESS, Nft, signer);
 
-    const tokenId = await Role.addPhoneNumbers(phoneNumbers, tokenUri, address, amount, { value: amount });
+    const tokenId = await Role.addPhoneNumbers(phoneNumbers, tokenUri, address, amount, destSelector,receiver, message, { value: amount });
+    tokenId.wait();
     return tokenId;
   } catch (error) {
     console.error('Error minting NFT:', error.message, error);
