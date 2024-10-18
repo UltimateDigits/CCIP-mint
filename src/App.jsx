@@ -4,6 +4,7 @@ import SearchResults from './components/SearchResults';
 import CartCheckout from './components/CartCheckout'; 
 import MintNFT from './components/nft/MintNumber';
 import MintSuccess from './components/Successful';
+import BridgeSuccess from './components/BridgeSuccess';
 import { GlobalURL } from './constants';
 import { useAccount } from 'wagmi'
 
@@ -38,7 +39,8 @@ const App = () => {
   const [showCartCheckout, setShowCartCheckout] = useState(false); // New state for CartCheckout
   const [showMintNFT, setShowMintNFT] = useState(false); // New state for MintNFT
   const [showMintSuccess, setShowMintSuccess] = useState(false); // New state for MintSuccess
-
+  const [showBridgeSuccess, setShowBridgeSuccess] = useState(false);
+  const [hash, setHash] = useState("");
   // Function to handle showing search results
   const handleSearch = (inputValue) => {
     setSearchInput(inputValue); // Store the phone number
@@ -59,13 +61,22 @@ const App = () => {
     setShowMintNFT(false); // Hide MintNFT component
   };
 
+  const handleBridgeSuccess = () => {
+    setShowBridgeSuccess(true);
+    setShowMintSuccess(false);
+  }
+
   return (
     <div className="min-h-screen w-full bg-cover bg-center bricolage-font pb-6 bg-gradient-to-t from-[#06061E] via-[#06061E] to-blue-950 flex justify-center items-center inter-font">
       <div className="space-y-3">
-        {showMintSuccess ? ( // Conditionally render MintSuccess component
-          <MintSuccess />
+        {showBridgeSuccess ? 
+        ( 
+          <BridgeSuccess hash={hash} />
+        )
+          : showMintSuccess ? ( // Conditionally render MintSuccess component
+          <MintSuccess onBridgeSuccess={handleBridgeSuccess} setHash={setHash} />
         ) : showMintNFT ? ( // Conditionally render MintNFT component
-          <MintNFT onMintSuccess={handleMintSuccess} connectionType={"wagmi"} /> // Pass function to MintNFT
+          <MintNFT onMintSuccess={handleMintSuccess} /> // Pass function to MintNFT
         ) : showCartCheckout ? ( 
           <CartCheckout onNavigateToMintNFT={handleNavigationToMintNFT} /> // Pass function to CartCheckout
         ) : showSearchResults ? (

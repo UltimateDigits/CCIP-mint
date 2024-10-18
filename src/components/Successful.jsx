@@ -7,11 +7,21 @@ import { formatPhoneNumber } from "../functions/formatPhoneNumber";
 import { switchChain } from '@wagmi/core'
 import { arbitrumSepolia } from '@wagmi/core/chains'
 import { config } from "../main";
-const MintSuccess = ({ }) => {
+import { ethers } from 'ethers';
+import { uploadToIPFS } from "../functions/ipfs/uploadToIPF";
+import checkTotalPrice from "../functions/checkTotalPrice";
+import { RECEIVER_ADDRESS } from "../constants";
+import { MINTARBITRUMNUMBERNFT } from "../contract/contractIntegration";
+
+const MintSuccess = ({ onBridgeSuccess, setHash }) => {
     const account = useAccount();
 
     const cartArray = useSelector(selectCartItems);
-
+    const [currentChain, setCurrentChain] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [status, setStatus] = useState("");
+    const [networkSwitching, setNetworkSwitching] = useState(false);
+    const currentAddress = account.address;
     const formattedPhoneNumbers = cartArray.map((phone) =>
         formatPhoneNumber(phone)
     ).join(", ");
@@ -23,9 +33,116 @@ const MintSuccess = ({ }) => {
 
     const BridgeArbitritum = async() => {
         console.log("will brige to arbi");
-        await switchChain(config, { chainId: arbitrumSepolia.id })
-        
+        const netchange = checkNetwork();
+        if (!netchange) {
+            buynumber();
+        }
+        else {
+            console.log("network change problem");
+        }
     }
+
+    const switchNetwork = async (desiredChainId) => {
+        try {
+          const chainIdHex = `0x${desiredChainId.toString(16)}`;
+          setNetworkSwitching(true); 
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: chainIdHex }],
+          });
+          setCurrentChain(desiredChainId);
+          buynumber();
+        } catch (error) {
+          if (error.code === 4902) {
+            console.error('Chain not found in wallet, please add it.');
+          } else {
+            console.error('Failed to switch network:', error);
+          }
+        }
+        finally {
+          setNetworkSwitching(false); // Stop switching network
+        }
+      };
+
+      const checkNetwork = async () => {
+        if (window.ethereum) {
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const { chainId } = await provider.getNetwork();
+          setCurrentChain(chainId);
+          if (chainId !== 421614) {
+            switchNetwork(421614);
+            return true;
+          }
+          return false;
+        } else {
+          console.error('MetaMask is not installed');
+          return false;
+        }
+      };
+
+      const buynumber = async () => {
+        if (cartArray.length === 0) {
+          setStatus("No phone numbers to mint.");
+          return;
+        }
+      
+        try {
+          setLoading(true);
+          setStatus("Uploading data to IPFS...");
+      
+          // Step 1: Upload data to IPFS
+          const imageUrl = await uploadToIPFS('/src/contract/tokenAssets/ud-square-logo2.png');
+          const metadata = {
+            name: `UDWeb3Number UDW3N`,
+            description: "This NFT represents ownership of virtual phone number in Arbitrum.",
+            image: imageUrl,
+            phoneNumbers: cartArray.map(number => `+999 ${formatPhoneNumber(number.toString())}`),
+            owner: currentAddress,
+            attributes: [
+              {
+                trait_type: "Phone Numbers",
+                value: cartArray.map(number => `+999 ${formatPhoneNumber(number.toString())}`).join(", "),
+              },
+              {
+                trait_type: "Owner Address",
+                value: currentAddress,
+              },
+            ],
+          };
+          const tokenUri = await uploadToIPFS(JSON.stringify(metadata));
+          console.log("Token URI: ", tokenUri);
+      
+          // Step 2: Mint the NFT
+          setStatus("Minting in progress...");
+          const totalPrice = checkTotalPrice(cartArray);
+          if (isNaN(totalPrice) || totalPrice <= 0) {
+            throw new Error("Invalid total price. Please check the input values.");
+          }
+      
+          const transacamount = ethers.utils.parseUnits(totalPrice.toString(), "ether");
+          console.log("Parsed Amount as BigNumber:", transacamount.toString());
+
+            const result = await MINTARBITRUMNUMBERNFT({
+              phoneNumbers: cartArray,
+              tokenUri,
+              address: RECEIVER_ADDRESS,
+              amount: transacamount
+            });
+            if (result && result.hash) {
+              setHash(result.hash);
+              setStatus(`NFT minted successfully! Transaction Hash: ${result.hash}`);
+              onBridgeSuccess();
+            } else {
+              throw new Error("Minting failed, no transaction hash returned.");
+            }
+        } catch (error) {
+          console.error("Error during minting process:", error);
+          setStatus(`Error: ${error.message || "An unexpected error occurred."}`);
+        } finally {
+          setLoading(false);
+        }
+      };
+    
 
     return (
         <div className=" text-white">
@@ -86,27 +203,35 @@ const MintSuccess = ({ }) => {
                             </p>
                         </div>
                     </div>
-                    <motion.button
-                        whileTap={{ scale: 0.9 }}
-                        className="border-2 border-customBlue bg-customBlue hover:bg-transparent w-full p-2 rounded-full mt-6"
-                        onClick={BridgeArbitritum}
-                    >
-                        <p className="font-bold flex justify-center mx-auto gap-3 items-center text-center">
-                Bridge to Arbitrum
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                                className="size-6"
-                            >
-                                <path
-                                    fillRule="evenodd"
-                                    d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z"
-                                    clipRule="evenodd"
-                                />
-                            </svg>
-                        </p>
-                    </motion.button>
+                    <div className="pt-4">
+                      <motion.button
+                          whileTap={{ scale: 0.9 }}
+                          className={`font-bold text-sm p-2 w-full rounded-full ${loading || networkSwitching ? "bg-gray-400" : "bg-customBlue"} text-white border border-customBlue`}
+                          onClick={BridgeArbitritum}
+                          disabled={loading || networkSwitching} 
+                      >
+                        {networkSwitching
+                                ? "Switching Network..."
+                                : loading
+                                ? "Bridging..."
+                                : "Bridge to Arbitrum"}
+                          {/* <p className={`font-bold text-sm p-2 w-full rounded-full ${loading ? "bg-gray-400" : "bg-customBlue"} text-white border border-customBlue`}>
+                              {loading ? "Bridging ..." : "Bridge to Arbitrum"}
+                              <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  fill="currentColor"
+                                  className="size-6"
+                              >
+                                  <path
+                                      fillRule="evenodd"
+                                      d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z"
+                                      clipRule="evenodd"
+                                  />
+                              </svg>
+                          </p> */}
+                      </motion.button>
+                    </div>
                 </div>
             </div>
             <div className="flex justify-center">

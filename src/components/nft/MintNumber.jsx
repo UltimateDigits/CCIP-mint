@@ -12,36 +12,16 @@ import NumberNft from "./NumberNft";
 import { motion } from "framer-motion";
 import { connectWallet } from "../../App";
 
-const MintNumber = ({ connectionType, setIsConnected, onMintSuccess }) => {
+const MintNumber = ({ onMintSuccess }) => {
   const cartArray = useSelector(selectCartItems);
   const account = useAccount();
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
-  const [coinbaseAddress, setCoinbaseAddress] = useState(null);
-  const [wagmiAddress, setWagmiAddress] = useState(null);
-  const currentAddress = connectionType === 'wagmi' ? wagmiAddress : coinbaseAddress;
+  const currentAddress = account.address;
 
   useEffect(() => {
     console.log("account address", currentAddress);
   }, [currentAddress]);
-
-  useEffect(() => {
-    const fetchAddress = async () => {
-      if (connectionType === 'coinbase') {
-        const con = await connectWallet();
-        if (con && con.address) {
-          setCoinbaseAddress(con.address);
-          setWagmiAddress(null);
-        }
-      } else if (connectionType === 'wagmi' && account.address) {
-        setWagmiAddress(account.address);
-        setCoinbaseAddress(null);
-      }
-      setIsConnected(!!(coinbaseAddress || account.address));
-    };
-
-    fetchAddress();
-  }, [connectionType, account.address]);
 
   const buynumber = async () => {
     if (cartArray.length === 0) {
@@ -84,9 +64,7 @@ const MintNumber = ({ connectionType, setIsConnected, onMintSuccess }) => {
   
       const transacamount = ethers.utils.parseUnits(totalPrice.toString(), "ether");
       console.log("Parsed Amount as BigNumber:", transacamount.toString());
-  
-      // Handle minting based on connection type
-      if (connectionType === 'wagmi') {
+
         const result = await MINTNUMBERNFT({
           phoneNumbers: cartArray,
           tokenUri,
@@ -101,19 +79,6 @@ const MintNumber = ({ connectionType, setIsConnected, onMintSuccess }) => {
         } else {
           throw new Error("Minting failed, no transaction hash returned.");
         }
-      } else if (connectionType === 'coinbase') {
-        // Call the mintCoinbase function for Coinbase wallet
-        const result = await mintCoinbase({
-          phoneNumbers: cartArray,
-          tokenUri,
-          amount: transacamount,
-        });
-        if (result && result.hash) {
-          setStatus(`NFT minted successfully on Coinbase! Transaction Hash: ${result.hash}`);
-        } else {
-          throw new Error("Minting failed on Coinbase, no transaction hash returned.");
-        }
-      }
   
       setStatus("Adding virtual number to the backend...");
       const virtualNumbers = cartArray.map(number => formatPhoneNumber(number.toString()));
@@ -144,13 +109,6 @@ const MintNumber = ({ connectionType, setIsConnected, onMintSuccess }) => {
     }
   };
   
-  // Define the mintCoinbase function
-  const mintCoinbase = async ({ phoneNumbers, tokenUri, amount }) => {
-    // Implement the minting logic for the Coinbase wallet here
-    // For example, you might use a specific contract method for Coinbase
-    // Make sure to return the result with a transaction hash
-  };
-  
   return (
     <div className="text-white inter-font">
       
@@ -175,7 +133,6 @@ const MintNumber = ({ connectionType, setIsConnected, onMintSuccess }) => {
                   {loading ? "Minting..." : "Link your number to a wallet"}
                 </motion.button>
               </div>
-              {status && <p className="text-red-500 pt-5">{status}</p>}
             </div>
           </div>
         </div>
