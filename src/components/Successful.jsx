@@ -69,8 +69,8 @@ const MintSuccess = ({ onBridgeSuccess, setHash }) => {
           const provider = new ethers.providers.Web3Provider(window.ethereum);
           const { chainId } = await provider.getNetwork();
           setCurrentChain(chainId);
-          if (chainId !== 421614) {
-            switchNetwork(421614);
+          if (chainId !== 42161) {
+            switchNetwork(42161);
             return true;
           }
           return false;

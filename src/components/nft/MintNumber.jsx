@@ -68,10 +68,10 @@ const MintNumber = ({ onMintSuccess }) => {
         const result = await MINTNUMBERNFT({
           phoneNumbers: cartArray,
           tokenUri,
-          address: RECEIVER_ADDRESS,
+          address: "0x4b94CDA271A365772e06092E5F538Be69a4815D9",
           amount: transacamount,
-         destSelector: "3478487238524512106",
-         receiver: "0xcfa13bbF8bdf195280FCA71466BD0C4D941Db051",
+         destSelector: "4949039107694359620",
+         receiver: RECEIVER_ADDRESS,
          message:tokenUri
         });
         if (result && result.hash) {

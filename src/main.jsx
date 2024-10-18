@@ -14,12 +14,12 @@ import {
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
-import {  baseSepolia, arbitrumSepolia } from "wagmi/chains";
+import {  base, arbitrumSepolia } from "wagmi/chains";
 
 export const  config = getDefaultConfig({
   appName: "My RainbowKit App",
   projectId: "YOUR_PROJECT_ID",
-  chains: [ baseSepolia],
+  chains: [ base],
   ssr: true,
 });
 const queryClient = new QueryClient();
